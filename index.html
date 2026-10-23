@@ -870,7 +870,7 @@ body.student-mode .fs-badge::after{content:' · وضع الطالب'}
 <button class="nav-btn active" data-page="home">🏠 الرئيسية</button>
 <button class="nav-btn" data-page="classes">👥 الفصول والطلاب</button>
 <button class="nav-btn" data-page="education">📖 المنهج</button>
-<button class="nav-btn" data-page="assistant">🎓 مساعد المعلم</button>
+
 <button class="nav-btn" data-page="lab">🧪 مختبري</button>
 <button class="nav-btn" data-page="portfolio">🏅 ملف الإنجاز</button>
 <button class="nav-btn" data-page="reports">📊 التقارير</button>
@@ -909,7 +909,7 @@ body.student-mode .fs-badge::after{content:' · وضع الطالب'}
 </div>
 <div id="lessonDetail" style="display:none"></div>
 </div>
-<div class="page" id="page-assistant"></div>
+
 <div class="page" id="page-lab"><div id="labContent"></div></div>
 <div class="page" id="page-portfolio"><div id="portfolioList"></div></div>
 <div class="page" id="page-reports"><div id="reportsContent"></div></div>
@@ -1181,7 +1181,7 @@ window.updateLabEditBtn=updateLabEditBtn;
 function toggleLabEditMode(){labEditMode=!labEditMode;updateLabEditBtn();renderLab();toast(labEditMode?'✏️ وضع التعديل مُفعّل':'👁️ عاد إلى وضع العرض');}
 window.toggleLabEditMode=toggleLabEditMode;
 
-var PAGES={home:{t:'الرئيسية',s:'لوحة التحكم'},classes:{t:'الفصول والطلاب',s:''},education:{t:'المنهج',s:'دروس الكيمياء 3 والعرض البصري'},assistant:{t:'مساعد المعلم',s:'لوحة الفصل ومتابعة الطلاب'},lab:{t:'مختبري',s:'الخطط الفصلية'},portfolio:{t:'ملف الإنجاز',s:'الشهادات'},reports:{t:'التقارير',s:'تحليلية'},settings:{t:'الإعدادات',s:''}};
+var PAGES={home:{t:'الرئيسية',s:'لوحة التحكم'},classes:{t:'الفصول والطلاب',s:''},education:{t:'المنهج',s:'دروس الكيمياء 3 والعرض البصري'},lab:{t:'مختبري',s:'الخطط الفصلية'},portfolio:{t:'ملف الإنجاز',s:'الشهادات'},reports:{t:'التقارير',s:'تحليلية'},settings:{t:'الإعدادات',s:''}};
 function navigate(p){if(!PAGES[p])p='home';state.page=p;if(p!=='lab') labEditMode=false;document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-page')===p);});document.querySelectorAll('.page').forEach(function(pg){pg.classList.toggle('active',pg.id==='page-'+p);});if(el('pageTitle'))el('pageTitle').textContent=PAGES[p].t;if(el('pageSub'))el('pageSub').textContent=PAGES[p].s;save();renderAll();updateLabEditBtn();if(window.innerWidth<900)el('sidebar').classList.remove('open');}
 window.navigate=navigate;
 document.querySelectorAll('.nav-btn').forEach(function(b){b.onclick=function(){navigate(this.getAttribute('data-page'));};});
@@ -1428,7 +1428,7 @@ window.closeStudentSection=closeStudentSection;
 function switchStuTab(k){stuActiveTab=k;if(k!=='homework')hwOpenAssignment=null;if(k!=='exams'){examOpenQuiz=null;examOpenChapter=null;}if(k!=='yearwork'){ywOpenStudent=null;ywFinalExamOpen=false;}renderStudentSection();}
 window.switchStuTab=switchStuTab;
 var classAssistantCss=document.createElement('style');classAssistantCss.textContent='.class-assistant-embed{margin:0 0 18px;background:#0a0e1a;border-radius:18px;overflow:hidden;border:1px solid #1f2937;box-shadow:0 10px 30px rgba(15,23,42,.16)}.class-assistant-embed-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#111827;color:#fff}.class-assistant-embed-head b{display:block;font-size:15px}.class-assistant-embed-head small{display:block;color:#94a3b8;font-size:11px;margin-top:3px}.class-assistant-embed-head span{font-size:11px;color:#5eead4;font-weight:800}.class-assistant-frame{display:block;width:100%;height:980px;border:0;background:#0a0e1a}.class-existing-sections{margin-top:12px}.class-existing-sections-title{font-weight:900;color:#0f766e;margin:0 0 8px;font-size:14px}@media(max-width:700px){.class-assistant-embed-head{align-items:flex-start;flex-direction:column}.class-assistant-embed-head span{font-size:10px}.class-assistant-frame{height:900px}}';document.head.appendChild(classAssistantCss);
-window.addEventListener('message',function(e){if(e.origin!==location.origin||!e.data||!e.data.type)return;var d=e.data;if(d.classKey&&stuOpenClass&&d.classKey!==stuOpenClass)return;if(d.type==='mushati-assistant-back'){closeStudentSection();return;}if(d.type==='mushati-assistant-nav'){if(d.page==='classes')return; if(d.page==='home'||d.page==='assistant'){navigate(d.page==='assistant'?'assistant':'home');return;}navigate(d.page);return;}if(d.type!=='mushati-assistant-open')return;var map={attendance:'attendance',exams:'exams',behavior:'activity',followups:'gami',messages:null,qiyas:'participation',learningStyles:'research',notes:'activity',book:'homework',groups:'attendance',lateStudents:'attendance',learningLoss:'activity',whiteboard:'activity'};if(d.open==='groups')attViewMode='groups';else if(d.open==='attendance')attViewMode=(d.extra&&d.extra.mode==='online'?'online':'onsite');var tab=map[d.open];if(tab){stuActiveTab=tab;renderStudentSection();}else if(d.open==='messages'){navigate('messages');}else if(d.open==='print'){window.print();}});
+window.addEventListener('message',function(e){if(e.origin!==location.origin||!e.data||!e.data.type)return;var d=e.data;if(d.classKey&&stuOpenClass&&d.classKey!==stuOpenClass)return;if(d.type==='mushati-assistant-back'){closeStudentSection();return;}if(d.type==='mushati-assistant-nav'){if(d.page==='classes')return; if(d.page==='home'){navigate('home');return;}navigate(d.page);return;}if(d.type!=='mushati-assistant-open')return;var map={attendance:'attendance',exams:'exams',behavior:'activity',followups:'gami',messages:null,qiyas:'participation',learningStyles:'research',notes:'activity',book:'homework',groups:'attendance',lateStudents:'attendance',learningLoss:'activity',whiteboard:'activity'};if(d.open==='groups')attViewMode='groups';else if(d.open==='attendance')attViewMode=(d.extra&&d.extra.mode==='online'?'online':'onsite');var tab=map[d.open];if(tab){stuActiveTab=tab;renderStudentSection();}else if(d.open==='messages'){navigate('messages');}else if(d.open==='print'){window.print();}});
 function getTodaySessionsForClass(){var parts=splitClassKey(stuOpenClass);if(!parts)return[];var sessions=[];var todayIdx=new Date().getDay();var dayKey=SCHEDULE_DAYS[todayIdx]?SCHEDULE_DAYS[todayIdx].key:null;if(dayKey){SCHEDULE_PERIODS.forEach(function(p){if(getScheduleClass(dayKey,p)===stuOpenClass){var lesson=getAutoLessonForCell(dayKey,p,stuOpenClass);sessions.push({id:'sch-'+dayKey+'-'+p,label:'حصة '+p,date:new Date().toISOString().slice(0,10),lesson:lesson});}});}return sessions;}
 function renderStudentSection(){
   if(!stuOpenClass){renderClasses();return;}
@@ -2180,7 +2180,7 @@ window.resetData=resetData;
 (function(){var pf=el('profileForm');if(pf)pf.oninput=function(){state.profile.teacherName=this.teacherName.value;state.profile.email=this.email.value;state.profile.school=this.school.value;save();if(el('sideName'))el('sideName').textContent='أ. '+state.profile.teacherName;if(el('sideAvatar'))el('sideAvatar').textContent=(state.profile.teacherName||'ع').charAt(0);if(el('heroName'))el('heroName').textContent='أ. '+state.profile.teacherName;};})();
 (function(){function bindLabForm(id){var f=el(id);if(!f)return;f.oninput=function(){if(!state.labProfile)state.labProfile={};var P=state.labProfile;['ministry','admin','school','year','semester','grade','subject','teacher','labKeeper','principal'].forEach(function(k){if(this[k])P[k]=this[k].value;}.bind(this));save();};}bindLabForm('labSettingsForm');bindLabForm('labSettingsFormAcademic');bindLabForm('labSettingsFormSign');})();
 
-function renderAll(){try{if(state.page==='home')renderHome();else if(state.page==='classes')renderClasses();else if(state.page==='education')renderEducation();else if(state.page==='lab')renderLab();else if(state.page==='portfolio')renderPortfolio();else if(state.page==='reports')renderReports();else if(state.page==='settings')renderSettings();else if(state.page==='assistant'){if(typeof cdSyncAssistantPage==='function')cdSyncAssistantPage();}updateNotificationBell();updateLabEditBtn();}catch(e){console.error(e);}}
+function renderAll(){try{if(state.page==='home')renderHome();else if(state.page==='classes')renderClasses();else if(state.page==='education')renderEducation();else if(state.page==='lab')renderLab();else if(state.page==='portfolio')renderPortfolio();else if(state.page==='reports')renderReports();else if(state.page==='settings')renderSettings();updateNotificationBell();updateLabEditBtn();}catch(e){console.error(e);}}
 function init(){try{var p=PAGES[state.page]?state.page:'home';navigate(p);eduView='list';if(el('sideName'))el('sideName').textContent='أ. '+(state.profile.teacherName||'عبدالله الفيفي');if(el('sideAvatar'))el('sideAvatar').textContent=(state.profile.teacherName||'ع').charAt(0);if(el('heroName'))el('heroName').textContent='أ. '+(state.profile.teacherName||'عبدالله الفيفي');setInterval(updateNotificationBell,60000);updateLabEditBtn();openMediaDB();console.log('✅ منصة المشاطي — جاهزة (معالجة ذكية + بنك أسئلة)');}catch(e){console.error(e);}}
 init();
 function __flushSave(){if(saveTimer){clearTimeout(saveTimer);saveTimer=null;try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}}
@@ -3500,9 +3500,9 @@ card();setTimeout(card,600);
   function notify(m){if(typeof toast==='function')toast(m);else alert(m);}
   function saveState(){try{if(typeof save==='function')save();}catch(e){}}
   function accountsPane(){return document.querySelector('.sett-pane[data-pane="accounts"]');}
-  function render(){var pane=accountsPane();if(!pane)return;var a=ensure(),r=current(),active=a.filter(function(x){return x.active;}).length,paused=a.length-active,current=a.filter(function(x){return x.role===r&&x.active;})[0]||{name:ROLE_LABEL[r]};
+  function render(){var pane=accountsPane();if(!pane)return;var a=ensure(),r=current(),active=a.filter(function(x){return x.active;}).length,paused=a.length-active,curAcc=a.filter(function(x){return x.role===r&&x.active;})[0]||{name:ROLE_LABEL[r]};
     var h='<div class="mx-account-shell">';
-    h+='<div class="mx-account-summary"><div class="mx-summary-item"><small>الحساب النشط</small><b>'+escA(current.name||ROLE_LABEL[r])+'</b><span>'+escA(ROLE_LABEL[r]||r)+'</span></div><div class="mx-summary-item"><small>الحسابات المفعّلة</small><b>'+active+'</b><span>يمكن استخدامها الآن</span></div><div class="mx-summary-item"><small>الحسابات الموقوفة</small><b>'+paused+'</b><span>لا يمكنها تسجيل الدخول</span></div></div>';
+    h+='<div class="mx-account-summary"><div class="mx-summary-item"><small>الحساب النشط</small><b>'+escA(curAcc.name||ROLE_LABEL[r])+'</b><span>'+escA(ROLE_LABEL[r]||r)+'</span></div><div class="mx-summary-item"><small>الحسابات المفعّلة</small><b>'+active+'</b><span>يمكن استخدامها الآن</span></div><div class="mx-summary-item"><small>الحسابات الموقوفة</small><b>'+paused+'</b><span>لا يمكنها تسجيل الدخول</span></div></div>';
     h+='<div class="mx-account-tabs"><button class="mx-account-tab active" data-mx-account-tab="list">الحسابات</button><button class="mx-account-tab" data-mx-account-tab="roles">الصلاحيات</button></div>';
     h+='<section class="mx-account-pane" data-mx-account-pane="list"><div class="mx-pane-heading"><div><h3>حسابات المنصة</h3><p>أضف الحسابات وأدر حالتها وصلاحيتها من مكان واحد.</p></div>'+(r==='admin'?'<button class="btn btn-primary" onclick="mxAccountAdd()">➕ إضافة حساب</button>':'')+'</div>';
     if(!a.length)h+='<div class="mx-empty-account">لا توجد حسابات إضافية. استخدم «إضافة حساب» لإنشاء مشاهد شامل أو محضّر مختبر.</div>';
@@ -4333,8 +4333,6 @@ async function cdInit(){
 function cdMountTabs(host,ck,fresh){
   if(!host||!ck||!state||!state.classes)return;
   var parts=splitClassKey(ck);
-  var other=host.id==='classDetail'?document.getElementById('page-assistant'):document.getElementById('classDetail');
-  if(other)other.innerHTML='';
   if(fresh||!host.querySelector('#cdApp')||CD.classKey!==ck){
     host.innerHTML='';
     host.appendChild(document.getElementById('cdTabsTemplate').content.cloneNode(true));
@@ -4347,20 +4345,12 @@ function cdMountTabs(host,ck,fresh){
   CD.students=state.classes[ck]||[];
   cdRenderStats();
 }
-function cdSyncAssistantPage(){
-  var host=document.getElementById('page-assistant');
-  var ks=Object.keys(state.classes||{});
-  var ck=(stuOpenClass&&state.classes&&state.classes[stuOpenClass])?stuOpenClass:ks[0];
-  if(ck)cdMountTabs(host,ck,false);
-  else host.innerHTML='<div class="empty"><h4>لا توجد فصول بعد</h4></div>';
-}
 cdSaveState=function(){try{save();}catch(e){}return Promise.resolve(true);};
 window.cdGoTo=function(open,extra){if(state.page==='classes'&&stuOpenClass)window.postMessage({type:'mushati-assistant-open',classKey:stuOpenClass,open:open,extra:extra},'*');};
 window.cdHome=function(){navigate('home');};
 window.cdBack=function(){if(state.page==='classes')closeStudentSection();else navigate('home');};
 var _cdScrollTo=window.scrollTo.bind(window);
 window.scrollTo=function(x,y){if(!x&&!y){var c=document.querySelector('.content');if(c)c.scrollTop=0;}return _cdScrollTo(x,y);};
-if(state.page==='assistant')cdSyncAssistantPage();
 </script>
 </body>
 </html>
